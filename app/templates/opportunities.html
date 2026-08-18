@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Job Opportunities · Jobby{% endblock %}
+{% block content %}
+<h1>Job Opportunities</h1>
+
+{% if not target_roles %}
+<article>
+  <p>Complete your profile first — save a resume so we know what roles to search for.</p>
+  <a href="/profile" role="button">Go to Profile</a>
+</article>
+{% else %}
+<article>
+  <form hx-post="/opportunities/search" hx-target="#opportunities-list" hx-swap="innerHTML" hx-indicator="#search-spinner">
+    <div class="grid">
+      <label>Limit
+        <input type="number" name="limit" value="{{ default_limit }}" min="1">
+      </label>
+      <label>Freshness (days)
+        <input type="number" name="freshness_days" value="{{ default_freshness_days }}" min="1">
+      </label>
+    </div>
+    <fieldset>
+      <legend>Acceptable modes (besides remote, which is always included)</legend>
+      <label><input type="checkbox" name="mode_filter" value="on_site" {% if 'on_site' in default_modes %}checked{% endif %}> On-site</label>
+      <label><input type="checkbox" name="mode_filter" value="hybrid" {% if 'hybrid' in default_modes %}checked{% endif %}> Hybrid</label>
+    </fieldset>
+    <button type="submit">Search for jobs</button>
+    <span id="search-spinner" class="htmx-indicator" aria-busy="true"> Searching…</span>
+  </form>
+</article>
+
+<div id="opportunities-list">
+  {% include "_opportunities_list.html" %}
+</div>
+{% endif %}
+{% endblock %}

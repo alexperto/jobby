@@ -1,0 +1,18 @@
+<article class="job-card" id="job-{{ job.id }}">
+  <header>
+    <strong>{{ job.title }}</strong> at {{ job.company }}
+    <br><small class="muted">{{ job.location }} · {{ job.mode.value }} · {{ job.website }}
+    {% if job.published_date %} · published {{ job.published_date }}{% endif %}</small>
+  </header>
+  <p>{{ job.description_summary }}</p>
+  {% if job.salary %}<p><strong>Salary:</strong> {{ job.salary }}</p>{% endif %}
+  {% if job.minimum_requirements %}<p><strong>Requirements:</strong> {{ job.minimum_requirements }}</p>{% endif %}
+  <p><small class="muted">Score: {% if job.score is not none %}{{ job.score }}{% else %}not yet scored{% endif %}</small></p>
+  <p><a href="{{ job.url }}" target="_blank" rel="noopener">View listing &rarr;</a></p>
+  <footer>
+    <button hx-post="/opportunities/{{ job.id }}/state?new_state=applied" hx-target="#job-{{ job.id }}" hx-swap="outerHTML">Applied</button>
+    <button hx-post="/opportunities/{{ job.id }}/state?new_state=saved" hx-target="#job-{{ job.id }}" hx-swap="outerHTML" class="secondary">Save</button>
+    <button hx-post="/opportunities/{{ job.id }}/state?new_state=discarded" hx-target="#job-{{ job.id }}" hx-swap="outerHTML" class="contrast">Discard</button>
+    <button hx-post="/opportunities/{{ job.id }}/state?new_state=irrelevant" hx-target="#job-{{ job.id }}" hx-swap="outerHTML" class="contrast">Irrelevant</button>
+  </footer>
+</article>
