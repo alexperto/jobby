@@ -10,5 +10,16 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "opportunities#index"
+
+  get "profile", to: "profile#show", as: :profile
+  post "profile/resume", to: "profile#save_resume", as: :save_resume
+  post "profile/target_roles", to: "profile#save_target_roles", as: :save_target_roles
+  post "profile/preferences", to: "profile#save_preferences", as: :save_preferences
+
+  get "opportunities", to: "opportunities#index", as: :opportunities
+  post "opportunities/search", to: "opportunities#search", as: :search_opportunities
+  post "opportunities/:id/state", to: "opportunities#update_state", as: :opportunity_state
+
+  get "history", to: "history#index", as: :history
 end

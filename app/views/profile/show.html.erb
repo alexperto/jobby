@@ -1,0 +1,54 @@
+<% content_for :title, "Profile · Jobby" %>
+<h1>Profile</h1>
+
+<article>
+  <h2>Resume</h2>
+  <%= form_with url: save_resume_path, method: :post, multipart: true do %>
+    <label>Upload resume (PDF)
+      <input type="file" name="resume_file" accept="application/pdf">
+    </label>
+    <label>...or paste resume text
+      <textarea name="resume_text" rows="6" placeholder="Paste plain text here if you'd rather not upload a PDF"><%= @profile.resume_text %></textarea>
+    </label>
+    <button type="submit">Save resume</button>
+  <% end %>
+</article>
+
+<% if @profile.target_roles.present? %>
+<article>
+  <h2>Target Roles</h2>
+  <p><small>Generated from your resume. Edit if you'd like to broaden or narrow the search.</small></p>
+  <%= form_with url: save_target_roles_path, method: :post do %>
+    <textarea name="target_roles" rows="3"><%= @profile.target_roles.join(", ") %></textarea>
+    <small>Comma-separated.</small>
+    <button type="submit">Save target roles</button>
+  <% end %>
+
+  <% if @profile.characteristics.present? %>
+  <details>
+    <summary>Extracted characteristics</summary>
+    <ul>
+      <% if @profile.characteristics["seniority"].present? %><li>Seniority: <%= @profile.characteristics["seniority"] %></li><% end %>
+      <% if @profile.characteristics["years_experience"].present? %><li>Years of experience: <%= @profile.characteristics["years_experience"] %></li><% end %>
+      <% if @profile.characteristics["skills"].present? %><li>Skills: <%= @profile.characteristics["skills"].join(", ") %></li><% end %>
+      <% if @profile.characteristics["summary"].present? %><li><%= @profile.characteristics["summary"] %></li><% end %>
+    </ul>
+  </details>
+  <% end %>
+</article>
+<% end %>
+
+<article>
+  <h2>Preferences</h2>
+  <%= form_with url: save_preferences_path, method: :post do %>
+    <label>Minimum salary (USD)
+      <input type="number" name="min_salary" value="<%= @profile.min_salary %>">
+    </label>
+    <label>Preferred cities
+      <input type="text" name="preferred_cities" placeholder="Austin, New York" value="<%= @profile.preferred_cities.join(', ') %>">
+    </label>
+    <small>Comma-separated. Remote results are always included regardless of city.</small>
+    <%= render "shared/mode_checkboxes", field_name: "preferred_modes", selected_modes: @profile.preferred_modes %>
+    <button type="submit">Save preferences</button>
+  <% end %>
+</article>

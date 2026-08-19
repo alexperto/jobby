@@ -31,6 +31,10 @@ gem "pdf-reader"
 gem "bootsnap", require: false
 
 group :development, :test do
+  # Pinned to 5.x: 6.0 split minitest/mock (used by test/controllers/* to
+  # fake LlmClient/TavilyClient) out of the base gem.
+  gem "minitest", "~> 5.25"
+
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 
