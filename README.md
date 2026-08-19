@@ -14,27 +14,28 @@ and the conversation that grilled it into the design below.
 
 ## Setup
 
+Dependencies are managed with [uv](https://docs.astral.sh/uv/).
+
 ```bash
-python3 -m venv .venv
-./.venv/bin/pip install -r requirements.txt
+uv sync   # creates .venv and installs everything from uv.lock
 cp .env.example .env   # then fill in OPENAI_API_KEY and TAVILY_API_KEY
 ```
 
 ## Run
 
 ```bash
-./.venv/bin/uvicorn app.main:app --reload
+uv run uvicorn app.main:app --reload
 ```
 
-Then visit http://localhost:8000/profile to get started: save a resume,
+Then visit <http://localhost:8000/profile> to get started: save a resume,
 review the generated target roles and preferences, then head to
 **Job Opportunities** to trigger a search.
 
 ## Test / typecheck
 
 ```bash
-./.venv/bin/python -m pytest
-./.venv/bin/python -m mypy app --ignore-missing-imports
+uv run pytest
+uv run mypy app --ignore-missing-imports
 ```
 
 ## Design notes
