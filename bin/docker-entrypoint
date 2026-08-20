@@ -1,0 +1,10 @@
+#!/bin/bash -e
+
+# If running the rails server, create/migrate the SQLite database first —
+# safe to run on every boot: db:prepare only applies pending migrations
+# (or loads db/schema.rb fresh) and no-ops otherwise.
+if [ "${1}" == "./bin/rails" ] && [ "${2}" == "server" ]; then
+  ./bin/rails db:prepare
+fi
+
+exec "${@}"

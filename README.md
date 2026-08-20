@@ -36,6 +36,56 @@ Then visit <http://localhost:3000/profile> to get started: save a resume,
 review the generated target roles and preferences, then head to
 **Job Opportunities** to trigger a search.
 
+## Docker
+
+```bash
+docker build -t jobby .
+
+docker run -d \
+  -p 3000:3000 \
+  -e RAILS_MASTER_KEY=$(cat config/master.key) \
+  -v jobby_storage:/rails/storage \
+  --name jobby \
+  jobby
+```
+
+- `RAILS_MASTER_KEY` decrypts `config/credentials.yml.enc` (which holds
+  `openai_api_key`/`tavily_api_key`) — the key itself is never baked into
+  the image. Set it from your local `config/master.key`, or however your
+  deployment target injects secrets.
+- The `-v jobby_storage:/rails/storage` volume is where the SQLite
+  database lives — without it, data is lost when the container is
+  recreated.
+- The entrypoint runs `db:prepare` on every boot (creates the DB from
+  `db/schema.rb` on first run, applies any new migrations after).
+- `/up` is Rails' built-in health check route, wired into the image's
+  `HEALTHCHECK`.
+
+### Docker for local development
+
+The image above is production-only (`RAILS_ENV=production` disables code
+reloading, dev/test gems aren't installed, and assets are precompiled) —
+bind-mounting your working directory over it won't give you a live-edit
+loop. Use the `dev` build target instead, which has the full Gemfile and
+runs in development mode:
+
+```bash
+docker build --target dev -t jobby-dev .
+
+docker run -it --rm \
+  -p 3000:3000 \
+  -v "$(pwd)":/rails \
+  jobby-dev
+```
+
+- `-v "$(pwd)":/rails` bind-mounts the whole project in — Ruby file/view
+  changes are picked up on the next request, no rebuild or restart needed.
+- No `RAILS_MASTER_KEY` needed here: since the mount includes
+  `config/master.key` (gitignored, but present on your local disk), Rails
+  reads it straight off disk like it does outside Docker.
+- Rebuild (`docker build --target dev ...`) only when the Gemfile changes
+  — everything else is picked up live through the mount.
+
 ## Test / lint / security
 
 ```bash

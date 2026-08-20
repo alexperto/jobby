@@ -19,7 +19,7 @@ gem "stimulus-rails"
 # gem "bcrypt", "~> 3.1.7"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[ windows jruby ]
+gem "tzinfo-data" # platforms: %i[ windows jruby ]
 
 # HTTP client for the hand-rolled OpenAI + Tavily adapters (no SDK gems —
 # see docs/agents/domain.md / the grilling session for why)
@@ -36,7 +36,7 @@ group :development, :test do
   gem "minitest", "~> 5.25"
 
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+  #gem "debug", platforms: %i[ mri ], require: "debug/prelude"
 
   # Audits gems for known security defects (use config/bundler-audit.yml to ignore issues)
   gem "bundler-audit", require: false
