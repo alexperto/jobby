@@ -1,0 +1,7 @@
+<turbo-frame id="opportunities-list">
+  <% if jobs.present? %>
+    <%= render partial: "job_card", collection: jobs, as: :job %>
+  <% else %>
+    <p>No job opportunities in your backlog yet. Run a search above.</p>
+  <% end %>
+</turbo-frame>

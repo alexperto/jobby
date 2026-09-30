@@ -1,0 +1,18 @@
+<article class="job-card" id="<%= dom_id(job) %>">
+  <header>
+    <strong><%= job.title %></strong> at <%= job.company %>
+    <br><small><%= job.location %> · <%= job.mode %> · <%= job.website %>
+    <% if job.published_date %> · published <%= job.published_date %><% end %></small>
+  </header>
+  <p><%= job.description_summary %></p>
+  <% if job.salary.present? %><p><strong>Salary:</strong> <%= job.salary %></p><% end %>
+  <% if job.minimum_requirements.present? %><p><strong>Requirements:</strong> <%= job.minimum_requirements %></p><% end %>
+  <p><small>Score: <%= job.score.nil? ? "not yet scored" : job.score %></small></p>
+  <p><%= safe_external_link_to "View listing →", job.url, target: "_blank", rel: "noopener" %></p>
+  <footer>
+    <%= button_to "Applied", opportunity_state_path(job, new_state: "applied"), method: :post, form: { data: { turbo_stream: true } } %>
+    <%= button_to "Save", opportunity_state_path(job, new_state: "saved"), method: :post, form: { data: { turbo_stream: true } }, class: "secondary" %>
+    <%= button_to "Discard", opportunity_state_path(job, new_state: "discarded"), method: :post, form: { data: { turbo_stream: true } }, class: "contrast" %>
+    <%= button_to "Irrelevant", opportunity_state_path(job, new_state: "irrelevant"), method: :post, form: { data: { turbo_stream: true } }, class: "contrast" %>
+  </footer>
+</article>

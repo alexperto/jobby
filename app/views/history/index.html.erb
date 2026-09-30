@@ -1,0 +1,37 @@
+<% content_for :title, "History · Jobby" %>
+<h1>History</h1>
+
+<% if @jobs.present? %>
+  <table>
+    <thead>
+      <tr><th>Title</th><th>Company</th><th>Location</th><th>Mode</th><th>Published</th><th>State</th><th>Score</th></tr>
+    </thead>
+    <tbody>
+      <% @jobs.each do |job| %>
+        <tr>
+          <td><%= safe_external_link_to job.title, job.url, target: "_blank", rel: "noopener" %></td>
+          <td><%= job.company %></td>
+          <td><%= job.location %></td>
+          <td><%= job.mode %></td>
+          <td><%= job.published_date || "—" %></td>
+          <td><%= job.state %></td>
+          <td><%= job.score.nil? ? "—" : job.score %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <nav>
+    <ul>
+      <% if @page > 1 %><li><%= link_to "← Previous", history_path(page: @page - 1) %></li><% end %>
+    </ul>
+    <ul>
+      <li>Page <%= @page %> of <%= @total_pages %></li>
+    </ul>
+    <ul>
+      <% if @page < @total_pages %><li><%= link_to "Next →", history_path(page: @page + 1) %></li><% end %>
+    </ul>
+  </nav>
+<% else %>
+  <p>No job opportunities recorded yet.</p>
+<% end %>

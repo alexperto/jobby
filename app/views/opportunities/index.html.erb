@@ -1,0 +1,26 @@
+<% content_for :title, "Job Opportunities · Jobby" %>
+<h1>Job Opportunities</h1>
+
+<% if @target_roles.blank? %>
+  <article>
+    <p>Complete your profile first — save a resume so we know what roles to search for.</p>
+    <%= link_to "Go to Profile", profile_path, role: "button" %>
+  </article>
+<% else %>
+  <article>
+    <%= form_with url: search_opportunities_path, method: :post, data: { turbo_frame: "opportunities-list" } do %>
+      <div class="grid">
+        <label>Limit
+          <input type="number" name="limit" value="<%= @default_limit %>" min="1">
+        </label>
+        <label>Freshness (days)
+          <input type="number" name="freshness_days" value="<%= @default_freshness_days %>" min="1">
+        </label>
+      </div>
+      <%= render "shared/mode_checkboxes", field_name: "mode_filter", selected_modes: @default_modes %>
+      <button type="submit" data-turbo-submits-with="Searching…">Search for jobs</button>
+    <% end %>
+  </article>
+
+  <%= render partial: "opportunities_frame", locals: { jobs: @jobs } %>
+<% end %>

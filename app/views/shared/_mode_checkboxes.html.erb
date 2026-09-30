@@ -1,0 +1,10 @@
+<%# Locals: field_name (e.g. "mode_filter" or "preferred_modes"), selected_modes (array) %>
+<fieldset>
+  <legend>Acceptable modes (besides remote, which is always included)</legend>
+  <% (JobOpportunity::MODES - [ "remote" ]).each do |mode| %>
+    <label>
+      <input type="checkbox" name="<%= field_name %>[]" value="<%= mode %>" <%= "checked" if selected_modes.include?(mode) %>>
+      <%= mode.humanize %>
+    </label>
+  <% end %>
+</fieldset>

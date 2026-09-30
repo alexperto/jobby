@@ -1,0 +1,25 @@
+.git/
+.gitattributes
+.gitignore
+
+# Never bake credentials/keys into the image — RAILS_MASTER_KEY is
+# supplied at runtime instead. config/credentials.yml.enc is fine to
+# include (it's encrypted).
+/config/master.key
+.env*
+
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+/storage/*
+!/storage/.keep
+
+/.bundle
+/vendor/bundle
+/public/assets
+
+/test
+/.rubocop.yml
+
+.DS_Store

@@ -1,0 +1,5 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+#
+# Deliberately empty: the placeholder rows Rails generates collide with the
+# dedup_key uniqueness constraint. Tests build their own records via a
+# make_job helper instead — see test/test_helper.rb.

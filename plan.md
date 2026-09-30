@@ -1,4 +1,4 @@
-Create an Agentic AI application in Python.
+Create an Agentic AI application.
 
 Goal:
 
@@ -50,9 +50,11 @@ Persisting Data:
 
 
 Technical specifications:
-1. Use OpenIA as the LLM
-2. Use tavily library to search, extract or scrap the websites
-3. Use a simple SQL database.
+1. Use Ruby and Rails
+2. Use OpenIA as the LLM
+3. Do not use external libraries for querying the OpenIA API
+4. Use tavily library to search, extract or scrap the websites
+5. Use a  SQlite database.
 
 
 Web Application:
